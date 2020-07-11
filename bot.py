@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import random
+import datetime
+
 
 client = commands.Bot(command_prefix = "g!")
 client.remove_command('help')
@@ -50,11 +52,41 @@ async def help(ctx):
     embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=False)
     embed.add_field(name="g!createrole <rolename>", value="Creates a role called rolename with no basic perms", inline=False)
     embed.add_field(name="Role assigning capabilities", value="Can assign reaction roles, just change the message id for which message the reactios go on in the code", inline=False)
-    embed.add_field(name="g!uno <member name(s)>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
+    embed.add_field(name="g!uno <member name1> <member name2> <member name3>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
     embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=False)
     embed.add_field(name="g!ban <member name>", value="Bans the member. Perms required", inline=False)
+    embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=False)
+    embed.add_field(name="g!xkcd <number>", value="Shows the comic based on the integer you enter, e.g. to see the first comic you would say 1", inline=False)
+    embed.add_field(name="g!calvinhobbes ", value="Shows the latest calvin and hobbes comic", inline=False)
+    embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=False)
+
+
+
+    await ctx.send('A list of commands has been sent to your dms')
 
     await author.send(embed=embed)
+
+@client.command()
+async def bignate(ctx):
+
+    today = datetime.date.today()
+    await ctx.send("https://gocomics.com/bignate/" + str(today.year) + "/" + str(today.month) + "/" + str(today.day))
+
+@client.command()
+async def calvinhobbes(ctx):
+
+    today = datetime.date.today()
+    await ctx.send("https://gocomics.com/calvinandhobbes/" + str(today.year) + "/" + str(today.month) + "/" + str(today.day))
+
+@client.command()
+async def xkcd(ctx, numcomic):
+
+    await ctx.send("https://xkcd.com/" + str(f'{numcomic}') + "/")
+
+@client.command()
+async def foxtrot(ctx):
+    await ctx.send("https://gocomics.com/foxtrot/2020/07/05")
+
 
 
 @client.command(pass_context=True)
@@ -149,9 +181,4 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-
-@client.event
-async def on_raw_reaction_remove(payload):
-    pass
-
-client.run('NzMxMjY3NjY2NDc5OTM5NjU0.XwlE_g.I3qSW0bfenC6xSWndRoabP2zQ-o')
+client.run('NzMxMjY3NjY2NDc5OTM5NjU0.Xwn6Ww.9if6RcVyGHdtN2fvj9wkfMEAM_4')
