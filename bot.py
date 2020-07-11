@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 import datetime
 
+#GaemBot v1.3
 
 client = commands.Bot(command_prefix = "g!")
 client.remove_command('help')
@@ -22,7 +23,6 @@ async def on_member_remove(member):
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong!')
-
 
 @client.command()
 async def kick(ctx, member : discord.Member, *, reason = None):
@@ -59,12 +59,16 @@ async def help(ctx):
     embed.add_field(name="g!xkcd <number>", value="Shows the comic based on the integer you enter, e.g. to see the first comic you would say 1", inline=False)
     embed.add_field(name="g!calvinhobbes ", value="Shows the latest calvin and hobbes comic", inline=False)
     embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=False)
-
-
+    embed.add_field(name="g!searchcalvinhobbes <date in yy/mm/dd>", value="Shows an archived Calvin and Hobbes comic", inline=False)
+    embed.add_field(name="g!searchbignate <date in yy/mm/dd>", value="Shows an archived bignate comic", inline=False)
 
     await ctx.send('A list of commands has been sent to your dms')
 
     await author.send(embed=embed)
+
+@client.command()
+async def gayrate(ctx, member):
+    await ctx.send(f'{member} is ' + str(random.randrange(100)) + "% gay")
 
 @client.command()
 async def bignate(ctx):
@@ -73,10 +77,20 @@ async def bignate(ctx):
     await ctx.send("https://gocomics.com/bignate/" + str(today.year) + "/" + str(today.month) + "/" + str(today.day))
 
 @client.command()
+async def searchbignate(ctx, date):
+
+    await ctx.send("https://gocomics.com/bignate/" + str(date))
+
+@client.command()
 async def calvinhobbes(ctx):
 
     today = datetime.date.today()
     await ctx.send("https://gocomics.com/calvinandhobbes/" + str(today.year) + "/" + str(today.month) + "/" + str(today.day))
+
+@client.command()
+async def searchcalvinhobbes(ctx, date):
+
+    await ctx.send("https://gocomics.com/calvinandhobbes/" + str(date))
 
 @client.command()
 async def xkcd(ctx, numcomic):
@@ -86,8 +100,6 @@ async def xkcd(ctx, numcomic):
 @client.command()
 async def foxtrot(ctx):
     await ctx.send("https://gocomics.com/foxtrot/2020/07/05")
-
-
 
 @client.command(pass_context=True)
 async def uno(ctx, member1: discord.Member, member2: discord.Member, member3: discord.Member):
@@ -103,7 +115,7 @@ async def uno(ctx, member1: discord.Member, member2: discord.Member, member3: di
     embed = discord.Embed()
     embed.set_author(name="Test")
     for _ in range(7):
-        embed.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+        embed.add_field(name="Test-Uno", valuere=f'{random.choice(uno)}', inline=False)
 
     embed1 = discord.Embed()
     embed1.set_author(name="Test")
@@ -124,8 +136,6 @@ async def uno(ctx, member1: discord.Member, member2: discord.Member, member3: di
     await member1.send(embed=embed1)
     await member2.send(embed=embed2)
     await member3.send(embed=embed3)
-
-
 
 @client.command(aliases = ["8ball"])
 async def _8ball(ctx, *, question):
@@ -177,12 +187,10 @@ async def on_raw_reaction_add(payload):
         #you can create rolenames using g!createrole <rolename here>
         #(you also dont have to create just gaming roles)
 
-
-
         if role is not None:
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             if member is not None:
                 await member.add_roles(role)
                 print("done")
 
-client.run('NzMxMjY3NjY2NDc5OTM5NjU0.XwoODQ.RD2mHbX9e2zWnoBNNwf46tbpKh4')
+client.run('NzMxMjY3NjY2NDc5OTM5NjU0.Xwoe7w.6wXnNKhG1zL6KCcjSKAMlehzl1k')
