@@ -193,4 +193,4 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-client.run('NzMxMjY3NjY2NDc5OTM5NjU0.Xwoe7w.6wXnNKhG1zL6KCcjSKAMlehzl1k')
+client.run('sorry cant put my token here cus otherwise it would keep resetting lol')
