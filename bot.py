@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 
 client = commands.Bot(command_prefix = "g!")
+client.remove_command('help')
 
 @client.event
 async def on_ready():
@@ -33,6 +34,63 @@ async def ban(ctx, member : discord.Member, *, reason = None):
 async def createrole(ctx, *, role:str, fields=None):
     await ctx.guild.create_role(name = role, reason=None)
 
+@client.command()
+async def help(ctx):
+    author = ctx.message.author
+    embed = discord.Embed(
+
+        title = "Commands (thus far)",
+        description = "help commands",
+        colour = discord.Colour.blue()
+    )
+
+    embed.set_footer(text = "Written by ultraman3214 #1357")
+    embed.set_image(url="https://discordapp.com/channels/642513671943094291/651622911475449898/731511206065733743")
+    embed.add_field(name="g!ping", value="Returns Pong!", inline=False)
+    embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=False)
+    embed.add_field(name="g!createrole <rolename>", value="Creates a role called rolename with no basic perms", inline=False)
+    embed.add_field(name="Role assigning capabilities", value="Can assign reaction roles, just change the message id for which message the reactios go on in the code", inline=False)
+    embed.add_field(name="g!uno <member name(s)>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
+    embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=False)
+    embed.add_field(name="g!ban <member name>", value="Bans the member. Perms required", inline=False)
+
+    await author.send(embed=embed)
+
+
+@client.command(pass_context=True)
+async def uno(ctx, member1: discord.Member, member2: discord.Member, member3: discord.Member):
+    uno = ["Red 0", "Green 0", "Yellow 0", "Blue 0", "Red 1", "Green 1", "Yellow 1", "Blue 1", "Red 2", "Green 2",
+           "Yellow 2", "Blue 3", "Red 4", "Green 4", "Yellow 4", "Blue 4", "Red 5", "Green 5", "Yellow 5", "Blue 5",
+           "Red 6", "Green 6", "Yellow 6", "Blue 6", "Red 7", "Green 7", "Yellow 7", "Blue 7", "Red 8", "Green 8",
+           "Yellow 8", "Blue 8", "Red 9", "Green 9", "Yellow 9", "Blue 9", "Red +2", "Green +2", "Yellow +2", "Blue +2",
+           "Red Skip", "Green Skip", "Yellow Skip", "Blue Skip", "Red Reverse", "Green Reverse", "Yellow Reverse",
+           "Blue Reverse", "+4" "+4" "Wild" "Wild"]
+
+    author = ctx.message.author
+
+    embed = discord.Embed()
+    embed.set_author(name="Test")
+    embed.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+
+    embed1 = discord.Embed()
+    embed1.set_author(name="Test")
+    embed1.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+
+    embed2 = discord.Embed()
+    embed2.set_author(name="Test")
+    embed2.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+
+    embed3 = discord.Embed()
+    embed3.set_author(name="Test")
+    embed3.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+
+
+    await author.send(author, embed=embed)
+    await member1.send(embed=embed1)
+    await member2.send(embed=embed2)
+    await member3.send(embed=embed3)
+
+
 @client.command(aliases = ["8ball"])
 async def _8ball(ctx, *, question):
     responses = ["It is certain.",
@@ -61,7 +119,7 @@ async def _8ball(ctx, *, question):
 @client.event
 async def on_raw_reaction_add(payload):
     message_id = payload.message_id
-    if message_id == 731321289234710528:
+    if message_id == 731554807474684024:
         guild_id = payload.guild_id
         guild = discord.utils.find(lambda g : g.id == guild_id, client.guilds)
 
@@ -75,10 +133,13 @@ async def on_raw_reaction_add(payload):
             role = discord.utils.get(guild.roles, name="LoL")
         elif payload.emoji.name == "csgo":
             role = discord.utils.get(guild.roles, name="csgo")
+        elif payload.emoji.name == "vardhan":
+            role = discord.utils.get(guild.roles, name="uno")
 
         #you're not just limited to these games, you can also add other ones
         #make sure that you have appropriate custom emojis as well as role names
         #you can create rolenames using g!createrole <rolename here>
+        #(you also dont have to create just gaming roles)
 
 
 
@@ -93,4 +154,4 @@ async def on_raw_reaction_add(payload):
 async def on_raw_reaction_remove(payload):
     pass
 
-client.run('NzMxMjY3NjY2NDc5OTM5NjU0.Xwkx9g.k0RyelhattMrWwDkXa7Cr4cbc7w')
+client.run('NzMxMjY3NjY2NDc5OTM5NjU0.XwlE_g.I3qSW0bfenC6xSWndRoabP2zQ-o')
