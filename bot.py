@@ -96,31 +96,35 @@ async def uno(ctx, member1: discord.Member, member2: discord.Member, member3: di
            "Red 6", "Green 6", "Yellow 6", "Blue 6", "Red 7", "Green 7", "Yellow 7", "Blue 7", "Red 8", "Green 8",
            "Yellow 8", "Blue 8", "Red 9", "Green 9", "Yellow 9", "Blue 9", "Red +2", "Green +2", "Yellow +2", "Blue +2",
            "Red Skip", "Green Skip", "Yellow Skip", "Blue Skip", "Red Reverse", "Green Reverse", "Yellow Reverse",
-           "Blue Reverse", "+4" "+4" "Wild" "Wild"]
+           "Blue Reverse", "+4", "+4", "+4", "+4", "Wild", "Wild", "Wild"]
 
     author = ctx.message.author
 
     embed = discord.Embed()
     embed.set_author(name="Test")
-    embed.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+    for _ in range(7):
+        embed.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
 
     embed1 = discord.Embed()
     embed1.set_author(name="Test")
-    embed1.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+    for _ in range(7):
+        embed1.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
 
     embed2 = discord.Embed()
     embed2.set_author(name="Test")
-    embed2.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
+    for _ in range(7):
+        embed2.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
 
     embed3 = discord.Embed()
     embed3.set_author(name="Test")
-    embed3.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
-
+    for _ in range(7):
+        embed3.add_field(name="Test-Uno", value=f'{random.choice(uno)}', inline=False)
 
     await author.send(author, embed=embed)
     await member1.send(embed=embed1)
     await member2.send(embed=embed2)
     await member3.send(embed=embed3)
+
 
 
 @client.command(aliases = ["8ball"])
@@ -181,4 +185,4 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-client.run('NzMxMjY3NjY2NDc5OTM5NjU0.Xwn6Ww.9if6RcVyGHdtN2fvj9wkfMEAM_4')
+client.run('NzMxMjY3NjY2NDc5OTM5NjU0.XwoODQ.RD2mHbX9e2zWnoBNNwf46tbpKh4')
