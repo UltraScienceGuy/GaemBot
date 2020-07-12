@@ -2,14 +2,87 @@ import discord
 from discord.ext import commands
 import random
 import datetime
+import asyncio
+import nltk
+from nltk.stem import WordNetLemmatizer
 
-#GaemBot v1.3
+lemmatizer = WordNetLemmatizer()
+import pickle
+import numpy as np
+
+from keras.models import load_model
+
+model = load_model('chatbot_model.h5')
+import json
+import random
+
+intents = json.loads(open('intents.json').read())
+words = pickle.load(open('words.pkl', 'rb'))
+classes = pickle.load(open('classes.pkl', 'rb'))
+
+
+def clean_up_sentence(sentence):
+    sentence_words = nltk.word_tokenize(sentence)
+    sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
+    return sentence_words
+
+
+# return bag of words array: 0 or 1 for each word in the bag that exists in the sentence
+
+def bow(sentence, words, show_details=True):
+    # tokenize the pattern
+    sentence_words = clean_up_sentence(sentence)
+    # bag of words - matrix of N words, vocabulary matrix
+    bag = [0] * len(words)
+    for s in sentence_words:
+        for i, w in enumerate(words):
+            if w == s:
+                # assign 1 if current word is in the vocabulary position
+                bag[i] = 1
+                if show_details:
+                    print("found in bag: %s" % w)
+    return (np.array(bag))
+
+
+def predict_class(sentence, model):
+    # filter out predictions below a threshold
+    p = bow(sentence, words, show_details=False)
+    res = model.predict(np.array([p]))[0]
+    ERROR_THRESHOLD = 0.25
+    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
+    # sort by strength of probability
+    results.sort(key=lambda x: x[1], reverse=True)
+    return_list = []
+    for r in results:
+        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
+    return return_list
+
+
+def getResponse(ints, intents_json):
+    tag = ints[0]['intent']
+    list_of_intents = intents_json['intents']
+    for tg in list_of_intents:
+        if (tg['tag'] == tag):
+            responses = random.choice(tg['responses'])
+            break
+    return responses
+
+
+def chatbot_response(msg):
+    ints = predict_class(msg, model)
+    res = getResponse(ints, intents)
+    return res
+
+#GaemBot v1.6
+#created and written by ultraman3214#1357
+#further credits: HelloItsAStupidName#4234
 
 client = commands.Bot(command_prefix = "g!")
 client.remove_command('help')
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord.Game(name="Yoink Simulator v3000"))
     print("Bot is ready. ")
 
 @client.event
@@ -19,6 +92,16 @@ async def on_member_join(member):
 @client.event
 async def on_member_remove(member):
     print(f'{member} has left the server.')
+
+@client.event
+async def on_reaction_add(reaction, user):
+    channel = reaction.message.channel
+    guild = reaction.message.channel.guild
+
+    if str(guild) == "brain juice store":
+        pass
+    elif str(guild) != "brain juice store":
+        await channel.send('{} has added {} to the message: {}'.format(user.name, reaction.emoji, reaction.message.content))
 
 @client.command()
 async def ping(ctx):
@@ -46,25 +129,32 @@ async def help(ctx):
         colour = discord.Colour.blue()
     )
 
-    embed.set_footer(text = "Written by ultraman3214 #1357")
+    embed.set_footer(text = "Written by ultraman3214 #1357 and HelloItsAStupidName #4234")
     embed.set_image(url="https://discordapp.com/channels/642513671943094291/651622911475449898/731511206065733743")
     embed.add_field(name="g!ping", value="Returns Pong!", inline=False)
-    embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=False)
+    embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=True)
     embed.add_field(name="g!createrole <rolename>", value="Creates a role called rolename with no basic perms", inline=False)
-    embed.add_field(name="Role assigning capabilities", value="Can assign reaction roles, just change the message id for which message the reactios go on in the code", inline=False)
+    embed.add_field(name="Role assigning capabilities", value="Can assign reaction roles, just change the message id for which message the reactios go on in the code", inline=True)
     embed.add_field(name="g!uno <member name1> <member name2> <member name3>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
-    embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=False)
+    embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=True)
     embed.add_field(name="g!ban <member name>", value="Bans the member. Perms required", inline=False)
-    embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=False)
+    embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=True)
     embed.add_field(name="g!xkcd <number>", value="Shows the comic based on the integer you enter, e.g. to see the first comic you would say 1", inline=False)
     embed.add_field(name="g!calvinhobbes ", value="Shows the latest calvin and hobbes comic", inline=False)
-    embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=False)
+    embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=True)
     embed.add_field(name="g!searchcalvinhobbes <date in yy/mm/dd>", value="Shows an archived Calvin and Hobbes comic", inline=False)
-    embed.add_field(name="g!searchbignate <date in yy/mm/dd>", value="Shows an archived bignate comic", inline=False)
+    embed.add_field(name="g!searchbignate <date in yy/mm/dd>", value="Shows an archived bignate comic", inline=True)
+    embed.add_field(name="g!chat <prompt>", value="uses machine learning to respond to what you say", inline=False)
+    embed.add_field(name="g!funnyvid", value="Brings up a funny vid. If you have a recommendation for a funny vid to add, pls contact ultraman3214#1357", inline=True)
 
     await ctx.send('A list of commands has been sent to your dms')
 
     await author.send(embed=embed)
+
+@client.command()
+async def funnyvid(ctx):
+    funnyvids = ['https://www.youtube.com/watch?v=2nMfuqAIyjA&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2&t=0s','https://www.youtube.com/watch?v=6rEkKWXCcR4&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2','https://www.youtube.com/watch?v=IOh-7NaA28A&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=3','https://www.youtube.com/watch?v=viLyfEtLn-M&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=4', 'https://www.youtube.com/watch?v=AuZJlroSSHY&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=5', 'https://www.youtube.com/watch?v=fMezlGSrwkQ&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=6', 'https://www.youtube.com/watch?v=R0UHzjj_Ydo&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=7', 'https://www.youtube.com/watch?v=WApuXPDR5Q0&list=PL30BFB50685A0252B', 'https://www.youtube.com/watch?v=-5Ilq3kFxek&list=PL30BFB50685A0252B&index=5', 'https://www.youtube.com/watch?v=blpe_sGnnP4&list=PL30BFB50685A0252B&index=4', 'https://www.youtube.com/watch?v=aRsWk4JZa5k', 'https://www.youtube.com/watch?v=AndzyIDU-kQ', 'https://www.youtube.com/watch?v=iIgEWRb61IQ', 'https://www.youtube.com/watch?v=Dfhh0slknlo', 'https://www.youtube.com/watch?v=--NFjjcQ8Ug', 'https://www.youtube.com/watch?v=AXrHbrMrun0', 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0']       
+    await ctx.send(f'{random.choice(funnyvids)}')
 
 @client.command()
 async def gayrate(ctx, member):
@@ -100,6 +190,16 @@ async def xkcd(ctx, numcomic):
 @client.command()
 async def foxtrot(ctx):
     await ctx.send("https://gocomics.com/foxtrot/2020/07/05")
+
+@client.command()
+async def chat(ctx, *, question):
+    msg = question
+
+    if msg != '':
+        await ctx.send(f'You: {question}')
+        res = chatbot_response(msg)
+        await ctx.send(f'Bot: {res}')
+
 
 @client.command(aliases = ["8ball"])
 async def _8ball(ctx, *, question):
@@ -143,8 +243,6 @@ async def on_raw_reaction_add(payload):
             role = discord.utils.get(guild.roles, name="LoL")
         elif payload.emoji.name == "csgo":
             role = discord.utils.get(guild.roles, name="csgo")
-        elif payload.emoji.name == "vardhan":
-            role = discord.utils.get(guild.roles, name="uno")
 
         #you're not just limited to these games, you can also add other ones
         #make sure that you have appropriate custom emojis as well as role names
@@ -157,4 +255,4 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-client.run('sorry cant put my token here cus otherwise it would keep resetting lol')
+client.run('lol cant show u the token')
