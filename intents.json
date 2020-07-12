@@ -11,12 +11,12 @@
         },
         {"tag": "age",
          "patterns": ["how old", "how old is tim", "what is your age", "how old are you", "age?"],
-         "responses": ["I am 18 years old!", "18 years young!"],
+         "responses": ["I am -1 year old", "18 years young!"],
          "context_set": ""
         },
         {"tag": "name",
          "patterns": ["what is your name", "what should I call you", "whats your name?"],
-         "responses": ["You can call me Tim.", "I'm Tim!", "I'm Tim aka Tech With Tim."],
+         "responses": ["You can call GaemBot", "I'm Gaembot!"],
          "context_set": ""
         },
         {"tag": "shop",
