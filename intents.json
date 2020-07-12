@@ -5,7 +5,7 @@
          "context_set": ""
         },
         {"tag": "goodbye",
-         "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day", "I'm leaving", "Bye fucker", "bye", "bai", "bye bye"],
+         "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day", "I'm leaving", "bye", "bai", "bye bye"],
          "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!", "Have a good day!", "Yeah, you better leave.", "Awww :("],
          "context_set": ""
         },
