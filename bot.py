@@ -73,9 +73,7 @@ def chatbot_response(msg):
     res = getResponse(ints, intents)
     return res
 
-#GaemBot v1.6
-#created and written by ultraman3214#1357
-#further credits: HelloItsAStupidName#4234
+#GaemBot v1.3
 
 client = commands.Bot(command_prefix = "g!")
 client.remove_command('help')
@@ -93,25 +91,17 @@ async def on_member_join(member):
 async def on_member_remove(member):
     print(f'{member} has left the server.')
 
-@client.event
-async def on_reaction_add(reaction, user):
-    channel = reaction.message.channel
-    guild = reaction.message.channel.guild
-
-    if str(guild) == "brain juice store":
-        pass
-    elif str(guild) != "brain juice store":
-        await channel.send('{} has added {} to the message: {}'.format(user.name, reaction.emoji, reaction.message.content))
-
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong!')
 
 @client.command()
+@commands.has_permissions(kick_members=True)
 async def kick(ctx, member : discord.Member, *, reason = None):
     await member.kick(reason=reason)
 
 @client.command()
+@commands.has_permissions(ban_members=True)
 async def ban(ctx, member : discord.Member, *, reason = None):
     await member.ban(reason=reason)
 
@@ -122,6 +112,7 @@ async def createrole(ctx, *, role:str, fields=None):
 @client.command()
 async def help(ctx):
     author = ctx.message.author
+    channel = client.get_channel(731567003021737996)
     embed = discord.Embed(
 
         title = "Commands (thus far)",
@@ -138,6 +129,7 @@ async def help(ctx):
     embed.add_field(name="g!uno <member name1> <member name2> <member name3>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
     embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=True)
     embed.add_field(name="g!ban <member name>", value="Bans the member. Perms required", inline=False)
+    embed.add_field(name="g!quickpoll <poll question> <first response> <second response> ... <fifth response>", value="creates a poll in the poll channel, assigns reactions", inline=False)
     embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=True)
     embed.add_field(name="g!xkcd <number>", value="Shows the comic based on the integer you enter, e.g. to see the first comic you would say 1", inline=False)
     embed.add_field(name="g!calvinhobbes ", value="Shows the latest calvin and hobbes comic", inline=False)
@@ -147,13 +139,26 @@ async def help(ctx):
     embed.add_field(name="g!chat <prompt>", value="uses machine learning to respond to what you say", inline=False)
     embed.add_field(name="g!funnyvid", value="Brings up a funny vid. If you have a recommendation for a funny vid to add, pls contact ultraman3214#1357", inline=True)
 
-    await ctx.send('A list of commands has been sent to your dms')
+    await ctx.send('A list of commands has been sent to #gaymbot')
 
-    await author.send(embed=embed)
+    await channel.send(embed=embed)
 
 @client.command()
 async def funnyvid(ctx):
-    funnyvids = ['https://www.youtube.com/watch?v=2nMfuqAIyjA&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2&t=0s','https://www.youtube.com/watch?v=6rEkKWXCcR4&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2','https://www.youtube.com/watch?v=IOh-7NaA28A&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=3','https://www.youtube.com/watch?v=viLyfEtLn-M&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=4', 'https://www.youtube.com/watch?v=AuZJlroSSHY&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=5', 'https://www.youtube.com/watch?v=fMezlGSrwkQ&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=6', 'https://www.youtube.com/watch?v=R0UHzjj_Ydo&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=7', 'https://www.youtube.com/watch?v=WApuXPDR5Q0&list=PL30BFB50685A0252B', 'https://www.youtube.com/watch?v=-5Ilq3kFxek&list=PL30BFB50685A0252B&index=5', 'https://www.youtube.com/watch?v=blpe_sGnnP4&list=PL30BFB50685A0252B&index=4', 'https://www.youtube.com/watch?v=aRsWk4JZa5k', 'https://www.youtube.com/watch?v=AndzyIDU-kQ', 'https://www.youtube.com/watch?v=iIgEWRb61IQ', 'https://www.youtube.com/watch?v=Dfhh0slknlo', 'https://www.youtube.com/watch?v=--NFjjcQ8Ug', 'https://www.youtube.com/watch?v=AXrHbrMrun0', 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0']       
+    funnyvids = ['https://www.youtube.com/watch?v=2nMfuqAIyjA&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2&t=0s',
+                 'https://www.youtube.com/watch?v=6rEkKWXCcR4&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2',
+                 'https://www.youtube.com/watch?v=IOh-7NaA28A&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=3',
+                 'https://www.youtube.com/watch?v=viLyfEtLn-M&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=4',
+                 'https://www.youtube.com/watch?v=AuZJlroSSHY&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=5',
+                 'https://www.youtube.com/watch?v=fMezlGSrwkQ&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=6',
+                 'https://www.youtube.com/watch?v=R0UHzjj_Ydo&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=7',
+                 'https://www.youtube.com/watch?v=WApuXPDR5Q0&list=PL30BFB50685A0252B',
+                 'https://www.youtube.com/watch?v=-5Ilq3kFxek&list=PL30BFB50685A0252B&index=5',
+                 'https://www.youtube.com/watch?v=blpe_sGnnP4&list=PL30BFB50685A0252B&index=4',
+                 'https://www.youtube.com/watch?v=aRsWk4JZa5k', 'https://www.youtube.com/watch?v=AndzyIDU-kQ',
+                 'https://www.youtube.com/watch?v=iIgEWRb61IQ', 'https://www.youtube.com/watch?v=Dfhh0slknlo',
+                 'https://www.youtube.com/watch?v=--NFjjcQ8Ug', 'https://www.youtube.com/watch?v=AXrHbrMrun0',
+                 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0', 'https://www.youtube.com/watch?v=dP9kNruuWGI', 'https://www.youtube.com/watch?v=AqsdmomR4p0']
     await ctx.send(f'{random.choice(funnyvids)}')
 
 @client.command()
@@ -200,6 +205,45 @@ async def chat(ctx, *, question):
         res = chatbot_response(msg)
         await ctx.send(f'Bot: {res}')
 
+@client.command(pass_context=True)
+async def quickpoll(ctx, question, *options: str):
+    channel = client.get_channel(692069601579892757)
+
+    if len(options) <= 1:
+        await client.say('You need more than one option to make a poll!')
+        return
+    if len(options) > 5:
+        await client.say('You cannot make a poll for more than 5 things!')
+        return
+
+    if len(options) == 2 and options[0] == 'yes' and options[1] == 'no':
+        reactions = ['✅', '❌']
+    elif len(options) == 3:
+        reactions = ['1️⃣','2️⃣','3️⃣']
+    elif len(options) == 4:
+        reactions = ['1️⃣','2️⃣','3️⃣','5️⃣']
+    else:
+        reactions = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣']
+
+    description = []
+    for x, option in enumerate(options):
+        description += '\n {} {}'.format(reactions[x], option)
+    embed = discord.Embed(title=question, description=''.join(description))
+    react_message = await channel.send(embed=embed)
+    for reaction in reactions[:len(options)]:
+        await message.add_reaction(react_message, reaction)
+    embed.set_footer(text='Poll ID: {}'.format(react_message.id))
+    await client.edit_message(react_message, embed=embed)
+
+@client.command()
+async def activity(ctx, user):
+    client.get_user(user)
+    now = datetime.datetime.now()
+    print(now)
+    Activity = discord.Activity
+    print(Activity.start)
+    time = now-Activity.start
+    #await ctx.send(f'{user} has been playing {Activity} for {time}')
 
 @client.command(aliases = ["8ball"])
 async def _8ball(ctx, *, question):
@@ -225,6 +269,7 @@ async def _8ball(ctx, *, question):
                 "Very doubtful."]
 
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+
 
 @client.event
 async def on_raw_reaction_add(payload):
@@ -255,4 +300,5 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-client.run('lol cant show u the token')
+
+client.run('TOKEN CENSORED')
