@@ -1,0 +1,6 @@
+discord.py
+datetime
+tensorflow 2.0
+nltk
+numpy 
+keras
