@@ -59,11 +59,6 @@
         "responses": ["https://reddit.com/r/historymemes"],
         "context_set": ""
         },
-        {"tag": "gay",
-        "patterns": ["Gay", "Homo", "Bad at life"],
-        "responses": ["Wow you just came out.", "Yes.", "You're gay.", "Homo. - tyrone"],
-        "context_set": ""
-        },
         {"tag": "teacher",
         "patterns": ["Best teacher", "teacher", "st. mark's, school"],
         "responses": ["The best teacher is Steckler Obviously", "idk what a teacher is I'm a bot", "Janis Oprea is the best teacher at SM.", "Brandenburg is the best teacher at school.", "School is for cool kids.", "The best office in school is the lower school office."],
