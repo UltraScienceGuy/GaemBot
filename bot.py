@@ -123,7 +123,7 @@ async def help(ctx):
         colour = discord.Colour.blue()
     )
 
-    embed.set_footer(text = "Written by ultraman3214 #1357 and HelloItsAStupidName #4234")
+    embed.set_footer(text = "Written by ultraman3214 #1357, further contribs by HelloItsAStupidName #4234")
     embed.set_image(url="https://discordapp.com/channels/642513671943094291/651622911475449898/731511206065733743")
     embed.add_field(name="g!chat <prompt>", value="uses machine learning to respond to what you say", inline=False)
     embed.add_field(name="g!createrole <rolename>", value="Creates a role called rolename with no basic perms", inline=False)
