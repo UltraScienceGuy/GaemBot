@@ -25,3 +25,19 @@
                 "My sources say no.",
                 "Outlook not so good.",
                 "Very doubtful."]
+                
+   
+   funnyvids = ['https://www.youtube.com/watch?v=2nMfuqAIyjA&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2&t=0s',
+                 'https://www.youtube.com/watch?v=6rEkKWXCcR4&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=2',
+                 'https://www.youtube.com/watch?v=IOh-7NaA28A&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=3',
+                 'https://www.youtube.com/watch?v=viLyfEtLn-M&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=4',
+                 'https://www.youtube.com/watch?v=AuZJlroSSHY&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=5',
+                 'https://www.youtube.com/watch?v=fMezlGSrwkQ&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=6',
+                 'https://www.youtube.com/watch?v=R0UHzjj_Ydo&list=PLJN-Y5f_oTajpnpOwMSPGQRGBrkNd_d9v&index=7',
+                 'https://www.youtube.com/watch?v=WApuXPDR5Q0&list=PL30BFB50685A0252B',
+                 'https://www.youtube.com/watch?v=-5Ilq3kFxek&list=PL30BFB50685A0252B&index=5',
+                 'https://www.youtube.com/watch?v=blpe_sGnnP4&list=PL30BFB50685A0252B&index=4',
+                 'https://www.youtube.com/watch?v=aRsWk4JZa5k', 'https://www.youtube.com/watch?v=AndzyIDU-kQ',
+                 'https://www.youtube.com/watch?v=iIgEWRb61IQ', 'https://www.youtube.com/watch?v=Dfhh0slknlo',
+                 'https://www.youtube.com/watch?v=--NFjjcQ8Ug', 'https://www.youtube.com/watch?v=AXrHbrMrun0',
+                 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0', 'https://www.youtube.com/watch?v=dP9kNruuWGI', 'https://www.youtube.com/watch?v=AqsdmomR4p0', 'https://www.youtube.com/watch?v=a8uyilHatBA', 'https://www.youtube.com/watch?v=WiK6SRvI3XU']
