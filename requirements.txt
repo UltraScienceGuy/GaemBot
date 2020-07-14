@@ -4,3 +4,5 @@ tensorflow 2.0
 nltk
 numpy 
 keras
+yfinance
+pickle
