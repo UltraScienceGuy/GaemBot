@@ -259,7 +259,11 @@ async def stock(ctx, tickersymbol):
     investment = tickerinfo['shortName']
     await ctx.send(investment)
 
-    tickerDF = tickerdata.history(period='1d', start='2020-1-1', end='2020-7-14')
+    today = datetime.date.today()
+
+    date = str(today.year) + "-" + str(today.month) + "-" + str(today.day)
+
+    tickerDF = tickerdata.history(period='1d', start='2020-1-1', end=date)
     priceLast = tickerDF['Close'].iloc[-1]
     priceYest = tickerDF['Close'].iloc[-2]
     pctdiff = round(((priceLast-priceYest)/priceYest)*100, 2)
@@ -325,6 +329,4 @@ async def on_raw_reaction_add(payload):
                 await member.add_roles(role)
                 print("done")
 
-
-
-client.run('Token Censored')
+client.run('Token censored')
