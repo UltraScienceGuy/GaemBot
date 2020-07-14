@@ -5,6 +5,10 @@ import datetime
 import asyncio
 import nltk
 from nltk.stem import WordNetLemmatizer
+import yfinance as yf
+import datetime
+
+
 
 lemmatizer = WordNetLemmatizer()
 import pickle
@@ -112,7 +116,6 @@ async def createrole(ctx, *, role:str, fields=None):
 @client.command()
 async def help(ctx):
     author = ctx.message.author
-    channel = client.get_channel(731567003021737996)
     embed = discord.Embed(
 
         title = "Commands (thus far)",
@@ -123,25 +126,25 @@ async def help(ctx):
     embed.set_footer(text = "Written by ultraman3214 #1357 and HelloItsAStupidName #4234")
     embed.set_image(url="https://discordapp.com/channels/642513671943094291/651622911475449898/731511206065733743")
     embed.add_field(name="g!ping", value="Returns Pong!", inline=False)
-    embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=True)
+    embed.add_field(name="g!8ball <query>", value="Returns a random answer for a question you ask", inline=False)
+    embed.add_field(name="g!stock <stock abbreviation>", value="Tells you the current stock price, as well as the change from yesterday's close", inline=False)
     embed.add_field(name="g!createrole <rolename>", value="Creates a role called rolename with no basic perms", inline=False)
     embed.add_field(name="Role assigning capabilities", value="Can assign reaction roles, just change the message id for which message the reactios go on in the code", inline=True)
-    embed.add_field(name="g!uno <member name1> <member name2> <member name3>", value="Starts an uno game, WIP currently (do not use it).", inline=False)
-    embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=True)
+    embed.add_field(name="g!kick <member name>", value="Kicks the member. Perms required", inline=False)
     embed.add_field(name="g!ban <member name>", value="Bans the member. Perms required", inline=False)
     embed.add_field(name="g!quickpoll <poll question> <first response> <second response> ... <fifth response>", value="creates a poll in the poll channel, assigns reactions", inline=False)
-    embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=True)
+    embed.add_field(name="g!bignate", value="Shows the newest bignate comic from gocomics", inline=False)
     embed.add_field(name="g!xkcd <number>", value="Shows the comic based on the integer you enter, e.g. to see the first comic you would say 1", inline=False)
     embed.add_field(name="g!calvinhobbes ", value="Shows the latest calvin and hobbes comic", inline=False)
-    embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=True)
+    embed.add_field(name="g!foxtrot", value="Shows the latest foxtrot comic", inline=False)
     embed.add_field(name="g!searchcalvinhobbes <date in yy/mm/dd>", value="Shows an archived Calvin and Hobbes comic", inline=False)
-    embed.add_field(name="g!searchbignate <date in yy/mm/dd>", value="Shows an archived bignate comic", inline=True)
+    embed.add_field(name="g!searchbignate <date in yy/mm/dd>", value="Shows an archived bignate comic", inline=False)
     embed.add_field(name="g!chat <prompt>", value="uses machine learning to respond to what you say", inline=False)
     embed.add_field(name="g!funnyvid", value="Brings up a funny vid. If you have a recommendation for a funny vid to add, pls contact ultraman3214#1357", inline=True)
+    embed.add_field(name="g!searchurban <word>", value="Searches urban dictionary for a word that you tell the bot", inline=False)
 
-    await ctx.send('A list of commands has been sent to #gaymbot')
+    await ctx.send(embed=embed)
 
-    await channel.send(embed=embed)
 
 @client.command()
 async def funnyvid(ctx):
@@ -158,7 +161,7 @@ async def funnyvid(ctx):
                  'https://www.youtube.com/watch?v=aRsWk4JZa5k', 'https://www.youtube.com/watch?v=AndzyIDU-kQ',
                  'https://www.youtube.com/watch?v=iIgEWRb61IQ', 'https://www.youtube.com/watch?v=Dfhh0slknlo',
                  'https://www.youtube.com/watch?v=--NFjjcQ8Ug', 'https://www.youtube.com/watch?v=AXrHbrMrun0',
-                 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0', 'https://www.youtube.com/watch?v=dP9kNruuWGI', 'https://www.youtube.com/watch?v=AqsdmomR4p0']
+                 'https://www.youtube.com/watch?v=eEa3vDXatXg', 'https://www.youtube.com/watch?v=-yr-Akpte4w', 'https://www.youtube.com/watch?v=xpqlBYHNUgk', 'https://www.youtube.com/watch?v=Hk3T1FSlkYw', 'https://www.youtube.com/watch?v=xQaySnBRyp0', 'https://www.youtube.com/watch?v=dP9kNruuWGI', 'https://www.youtube.com/watch?v=AqsdmomR4p0', 'https://www.youtube.com/watch?v=a8uyilHatBA', 'https://www.youtube.com/watch?v=WiK6SRvI3XU']
     await ctx.send(f'{random.choice(funnyvids)}')
 
 @client.command()
@@ -194,7 +197,7 @@ async def xkcd(ctx, numcomic):
 
 @client.command()
 async def foxtrot(ctx):
-    await ctx.send("https://gocomics.com/foxtrot/2020/07/05")
+    await ctx.send("https://www.gocomics.com/foxtrot/2020/07/12")
 
 @client.command()
 async def chat(ctx, *, question):
@@ -237,13 +240,35 @@ async def quickpoll(ctx, question, *options: str):
 
 @client.command()
 async def activity(ctx, user):
-    client.get_user(user)
+    ctx.guild.get_member(user)
     now = datetime.datetime.now()
     print(now)
-    Activity = discord.Activity
+    Activity = discord.Activity()
     print(Activity.start)
     time = now-Activity.start
     #await ctx.send(f'{user} has been playing {Activity} for {time}')
+
+@client.command()
+async def searchurban(ctx, word):
+    await ctx.send('https://www.urbandictionary.com/define.php?term=' + str(word))
+
+@client.command()
+async def stock(ctx, tickersymbol):
+    tickerdata = yf.Ticker(tickersymbol)
+    tickerinfo = tickerdata.info
+    investment = tickerinfo['shortName']
+    await ctx.send(investment)
+
+    tickerDF = tickerdata.history(period='1d', start='2020-1-1', end='2020-7-14')
+    priceLast = tickerDF['Close'].iloc[-1]
+    priceYest = tickerDF['Close'].iloc[-2]
+    pctdiff = round(((priceLast-priceYest)/priceYest)*100, 2)
+    await ctx.send(priceLast)
+    if pctdiff < 0:
+        await ctx.send(f'{investment} is down {pctdiff} percent from yesterday')
+    else:
+        await ctx.send(f'{investment} is up {pctdiff} percent from yesterday')
+
 
 @client.command(aliases = ["8ball"])
 async def _8ball(ctx, *, question):
@@ -301,4 +326,5 @@ async def on_raw_reaction_add(payload):
                 print("done")
 
 
-client.run('TOKEN CENSORED')
+
+client.run('Token Censored')
