@@ -29,14 +29,9 @@
          "responses": ["We are open 7am-4pm Monday-Friday!", "Why are you even asking me this question lmao (I'm open 7am-4pm Monday-Friday)."],
          "context_set": ""
         },
-        {"tag": "hungry",
-        "patterns": ["I'm hungry", "hungry", "Mans is hungry", "I'm so hungry"],
-        "responses": ["Fat man.", "Ok then eat food.", "Bad. You're so fat lmao"],
-        "context_set": ""
-        },
         {"tag": "insult",
         "patterns": ["Tell me an insult", "Insult me", "Bot insult me"],
-        "responses": ["Fat.", "You're Literally a boomer.", "You're bad at video games stfu.", "Bad.", "You're bad at school lmao." ],
+        "responses": ["Fat.", "You're Literally a boomer.","Bad.", "You're bad at school lmao." ],
         "context_set": ""
         },
         {"tag": "compliment",
